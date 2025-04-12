@@ -1,0 +1,13 @@
+FROM ubuntu:24.04
+
+RUN apt-get update && \
+    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y curl gnupg && \
+    curl -sSL https://github.com/JetBrains/kotlin/releases/download/v1.9.10/kotlin-compiler-1.9.10.zip -o kotlin-compiler.zip && \
+    apt-get install -y unzip && \
+    unzip kotlin-compiler.zip -d /opt/kotlin && \
+    ln -s /opt/kotlin/kotlinc/bin/kotlin /usr/bin/kotlin && \
+    ln -s /opt/kotlin/kotlinc/bin/kotlinc /usr/bin/kotlinc && \
+    rm kotlin-compiler.zip
+
+CMD [ "bash" ]
