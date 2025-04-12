@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: ubuntu-python3.10
+    command: python3 --version
+
+  kotlinapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.kotlin
+    container_name: ubuntu-kotlin
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: gradle run
