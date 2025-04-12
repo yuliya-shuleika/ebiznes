@@ -10,4 +10,12 @@ RUN apt-get update && \
     ln -s /opt/kotlin/kotlinc/bin/kotlinc /usr/bin/kotlinc && \
     rm kotlin-compiler.zip
 
-CMD [ "bash" ]
+RUN curl -sSL https://services.gradle.org/distributions/gradle-8.3-bin.zip -o gradle-bin.zip && \
+    unzip gradle-bin.zip -d /opt/gradle && \
+    ln -s /opt/gradle/gradle-8.3/bin/gradle /usr/bin/gradle && \
+    rm gradle-bin.zip
+
+WORKDIR /app
+COPY . .
+
+CMD ["gradle", "run"]
