@@ -13,15 +13,17 @@ import kotlinx.coroutines.runBlocking
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 
+val categories = listOf("Clothes", "Shoes", "Books", "Accessories", "Cosmetics")
+
 fun main() = runBlocking {
     val channelId = "1335376065878560788"
     val botToken = ""
 
-    sendHelloMessage(channelId, "Hi from Ktor!", botToken)
-    startBot(botToken)
+    sendMessage(channelId, "Hi from Ktor!", botToken)
+    startBot(channelId, botToken)
 }
 
-suspend fun sendHelloMessage(channelId: String, message: String, botToken: String) {
+suspend fun sendMessage(channelId: String, message: String, botToken: String) {
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json()
@@ -46,12 +48,15 @@ suspend fun sendHelloMessage(channelId: String, message: String, botToken: Strin
 }
 
 @OptIn(PrivilegedIntent::class)
-suspend fun startBot(botToken: String) {
+suspend fun startBot(channelId: String, botToken: String) {
     val kord = Kord(botToken)
 
     kord.on<MessageCreateEvent> {
         val content = message.content
-        println("message text: $content")
+        if (content.startsWith("/categories")) {
+            val response = categories.joinToString("\n")
+            sendMessage(channelId, response, botToken)
+        }
     }
 
     kord.login {
