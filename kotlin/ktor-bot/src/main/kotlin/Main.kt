@@ -39,6 +39,33 @@ val productsByCategories = mapOf(
     "Shoes" to listOf("Snickers", "Boots"),
     "Cosmetics" to listOf("Lipstick", "Blush", "Mascara")
 )
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Product(
+    val name: String,
+    val category: String,
+    val price: Double
+)
+
+val categories = listOf("Clothes", "Shoes", "Cosmetics")
+
+val products = listOf(
+    Product("Skirt", "Clothes", 29.99),
+    Product("T-shirt", "Clothes", 39.99),
+    Product("Dress", "Clothes", 49.99),
+    Product("Snickers", "Shoes", 49.99),
+    Product( "Boots", "Shoes", 69.99),
+    Product("Lipstick", "Cosmetics", 14.99),
+    Product( "Blush", "Cosmetics", 19.99),
+    Product("Mascara", "Cosmetics", 24.99)
+)
+
+val productsByCategories = mapOf(
+    "Clothes" to listOf("Skirt", "T-shirt", "Dress"),
+    "Shoes" to listOf("Snickers", "Boots"),
+    "Cosmetics" to listOf("Lipstick", "Blush", "Mascara")
+)
 
 fun main() = runBlocking {
     val channelId = "1335376065878560788"
@@ -84,7 +111,6 @@ suspend fun startBot(channelId: String, botToken: String) {
         } else if(content.startsWith("/products")) {
             val parts = content.split("/")
             if(parts.size <= 2) {
-                println(parts)
                 sendMessage(channelId, formatProducts(products), botToken)
             } else {
                 val category = parts.getOrNull(2)?.capitalize()
@@ -99,6 +125,17 @@ suspend fun startBot(channelId: String, botToken: String) {
         intents += Intent.MessageContent
     }
 }
+
+fun formatProducts(products: List<Product>): String {
+    return products.joinToString("\n\n") { product ->
+        """
+        Product: ${product.name}
+        Category: ${product.category}
+        Price: ${"%.2f".format(product.price)} PLN
+        """.trimIndent()
+    }
+}
+
 
 fun formatProducts(products: List<Product>): String {
     return products.joinToString("\n\n") { product ->
