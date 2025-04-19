@@ -11,3 +11,19 @@ Zadanie 1 Docker
 ✅ 5.0 [dodać konfigurację docker-compose](https://github.com/yuliya-shuleika/ebiznes/commit/ef11a81413c8f0af067d3bc1e891d6ab722d0b4f)
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/docker
+Link do Dockerhub: https://hub.docker.com/r/emapyuliyashuleika/ebiznes
+
+Zadanie 2 Scala
+
+✅ 3.0 [Należy stworzyć kontroler do Produktów](https://github.com/yuliya-shuleika/ebiznes/commit/e1a67ccbe32669bea1d50c389ba63f6e7e01a526)
+
+✅ 3.5 [Do kontrolera należy stworzyć endpointy zgodnie z CRUD - dane pobierane z listy](https://github.com/yuliya-shuleika/ebiznes/commit/e1a67ccbe32669bea1d50c389ba63f6e7e01a526)
+
+✅ 4.0 [Należy stworzyć kontrolery do Kategorii oraz Koszyka + endpointy zgodnie z CRUD](https://github.com/yuliya-shuleika/ebiznes/commit/eb70d77e62847c0629f67eb701a6bb9079460231)
+
+✅ 4.5 [Należy aplikację uruchomić na dockerze (stworzyć obraz) oraz dodać skrypt uruchamiający aplikację via ngrok (nie podawać tokena ngroka w gotowym rozwiązaniu)](https://github.com/yuliya-shuleika/ebiznes/commit/65ee58f3baab4ea93814ed95a5fbed8fd1e89371)
+
+✅ 5.0 [Należy dodać konfigurację CORS dla dwóch hostów dla metod CRUD]()
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/scala
+
