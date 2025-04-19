@@ -11,6 +11,7 @@ Zadanie 1 Docker
 ✅ 5.0 [dodać konfigurację docker-compose](https://github.com/yuliya-shuleika/ebiznes/commit/ef11a81413c8f0af067d3bc1e891d6ab722d0b4f)
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/docker
+
 Link do Dockerhub: https://hub.docker.com/r/emapyuliyashuleika/ebiznes
 
 Zadanie 2 Scala
