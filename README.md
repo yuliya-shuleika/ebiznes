@@ -24,7 +24,7 @@ Zadanie 2 Scala
 
 ✅ 4.5 [Należy aplikację uruchomić na dockerze (stworzyć obraz) oraz dodać skrypt uruchamiający aplikację via ngrok (nie podawać tokena ngroka w gotowym rozwiązaniu)](https://github.com/yuliya-shuleika/ebiznes/commit/65ee58f3baab4ea93814ed95a5fbed8fd1e89371)
 
-✅ 5.0 [Należy dodać konfigurację CORS dla dwóch hostów dla metod CRUD]()
+✅ 5.0 [Należy dodać konfigurację CORS dla dwóch hostów dla metod CRUD](https://github.com/yuliya-shuleika/ebiznes/commit/2ff903af798b39ad416ed4bbeff1446f5b8b5b0b)
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/scala
 
