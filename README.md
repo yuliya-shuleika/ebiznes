@@ -28,3 +28,15 @@ Zadanie 2 Scala
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/scala
 
+Zadanie 3 Kotlin
+
+✅ 3.0 [Należy stworzyć aplikację kliencką w Kotlinie we frameworku Ktor, która pozwala na przesyłanie wiadomości na platformę Discord](https://github.com/yuliya-shuleika/ebiznes/commit/add06548714c6f287b2a006e915d798203a511d6)
+
+✅ 3.5 [Aplikacja jest w stanie odbierać wiadomości użytkowników z platformy Discord skierowane do aplikacji (bota)](https://github.com/yuliya-shuleika/ebiznes/commit/6f07e4939fc710d581aa3061a360de57f5152b7c)
+
+✅ 4.0 [Zwróci listę kategorii na określone żądanie użytkownika](https://github.com/yuliya-shuleika/ebiznes/commit/8b8cf4f25bdc708fd388d3c78f4a0834d955597c)
+
+✅ 4.5 [Zwróci listę produktów wg żądanej kategorii](https://github.com/yuliya-shuleika/ebiznes/commit/beac0fe055264b9aa4dd7f37cd1be31523b0fd28)
+
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/kotlin
