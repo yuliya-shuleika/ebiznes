@@ -2,11 +2,16 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	"go-server/db"
 	"go-server/handlers"
+	"go-server/models"
 )
 
 func main() {
 	e := echo.New()
+
+	db.ConnectDB()
+	db.DB.AutoMigrate(&models.Product{})
 
 	e.GET("/products", handlers.GetProducts)
 	e.GET("/products/:id", handlers.GetProduct)
