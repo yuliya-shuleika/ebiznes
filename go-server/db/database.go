@@ -1,9 +1,12 @@
 package db
 
 import (
+	"log"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"log"
+
+	"go-server/models"
 )
 
 var DB *gorm.DB
@@ -14,4 +17,6 @@ func ConnectDB() {
 	if err != nil {
 		log.Fatal("Cannot connect to database:", err)
 	}
+
+	DB.AutoMigrate(&models.Product{}, &models.CartItem{})
 }
