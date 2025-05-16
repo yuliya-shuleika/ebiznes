@@ -20,7 +20,7 @@ func GetProduct(c echo.Context) error {
 	var product models.Product
 	result := db.DB.First(&product, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Produkt nie znaleziony"})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found"})
 	}
 	return c.JSON(http.StatusOK, product)
 }
@@ -57,4 +57,14 @@ func DeleteProduct(c echo.Context) error {
 	}
 	db.DB.Delete(&product)
 	return c.NoContent(http.StatusNoContent)
+}
+
+func GetProductsByCategory(c echo.Context) error {
+	categoryID, _ := strconv.Atoi(c.Param("categoryId"))
+	var products []models.Product
+	result := db.DB.Where("category_id = ?", categoryID).Find(&products)
+	if result.Error != nil {
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "No products found for this category"})
+	}
+	return c.JSON(http.StatusOK, products)
 }

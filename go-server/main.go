@@ -18,12 +18,16 @@ func main() {
 	e.POST("/products", handlers.CreateProduct)
 	e.PUT("/products/:id", handlers.UpdateProduct)
 	e.DELETE("/products/:id", handlers.DeleteProduct)
+	e.GET("/products/categories/:categoryId", handlers.GetProductsByCategory)
 
 	e.GET("/cart/:key", handlers.GetCartItems)
 	e.POST("/cart/:key/items", handlers.AddCartItem)
 	e.DELETE("/cart/:key/items/:productId", handlers.RemoveCartItem)
 	e.DELETE("/cart/:key", handlers.ClearCart)
 
+
+	e.POST("/categories", handlers.CreateCategory)
+	e.GET("/categories", handlers.GetCategories)
 	
 	e.Logger.Fatal(e.Start(":8080"))
 }
