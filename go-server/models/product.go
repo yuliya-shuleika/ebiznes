@@ -8,6 +8,12 @@ type Product struct {
 	Description string   `json:"description"`
 	Price       float64  `json:"price"`
 
-	CategoryID  uint     `json:"category_id"`           // FK
-	Category    Category `json:"category"`              // relacja 1:N
+	CategoryID  uint     `json:"category_id"`
+	Category    Category `json:"category"`
+}
+
+func ScopeByCategory(categoryID uint) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("category_id = ?", categoryID)
+	}
 }

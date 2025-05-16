@@ -13,7 +13,7 @@ func GetCartItems(c echo.Context) error {
 	cartKey := c.Param("key")
 
 	var items []models.CartItem
-	err := db.DB.Preload("Product").Where("cart_key = ?", cartKey).Find(&items).Error
+	err := db.DB.Scopes(models.ScopeByCartKey(cartKey)).Find(&items).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -38,7 +38,7 @@ func AddCartItem(c echo.Context) error {
 	}
 
 	var item models.CartItem
-	result := db.DB.Where("cart_key = ? AND product_id = ?", cartKey, body.ProductID).First(&item)
+	result := db.DB.Scopes(models.ScopeByCartKeyAndProduct(cartKey, body.ProductID)).First(&item)
 	if result.Error == nil {
 		item.Quantity += body.Quantity
 		db.DB.Save(&item)
@@ -57,14 +57,15 @@ func AddCartItem(c echo.Context) error {
 
 func RemoveCartItem(c echo.Context) error {
 	cartKey := c.Param("key")
-	productID, _ := strconv.Atoi(c.Param("productId"))
+	productIDParam, _ := strconv.Atoi(c.Param("productId"))
+	productID := uint(productIDParam)
 
 	var item models.CartItem
-	if err := db.DB.Where("cart_key = ? AND product_id = ?", cartKey, productID).First(&item).Error; err != nil {
+	if err := db.DB.Scopes(models.ScopeByCartKeyAndProduct(cartKey, productID)).First(&item).Error; err != nil {
 		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found in cart"})
 	}
 
-	err := db.DB.Where("cart_key = ? AND product_id = ?", cartKey, productID).Delete(&models.CartItem{}).Error
+	err := db.DB.Scopes(models.ScopeByCartKeyAndProduct(cartKey, productID)).Delete(&models.CartItem{}).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -75,7 +76,7 @@ func RemoveCartItem(c echo.Context) error {
 func ClearCart(c echo.Context) error {
 	cartKey := c.Param("key")
 
-	err := db.DB.Where("cart_key = ?", cartKey).Delete(&models.CartItem{}).Error
+	err := db.DB.Scopes(models.ScopeByCartKey(cartKey)).Delete(&models.CartItem{}).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}

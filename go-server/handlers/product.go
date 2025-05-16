@@ -60,9 +60,11 @@ func DeleteProduct(c echo.Context) error {
 }
 
 func GetProductsByCategory(c echo.Context) error {
-	categoryID, _ := strconv.Atoi(c.Param("categoryId"))
+	categoryIDParam, _ := strconv.Atoi(c.Param("categoryId"))
+	categoryID := uint(categoryIDParam)
+
 	var products []models.Product
-	result := db.DB.Where("category_id = ?", categoryID).Find(&products)
+	result := db.DB.Scopes(models.ScopeByCategory(categoryID)).Find(&products)
 	if result.Error != nil {
 		return c.JSON(http.StatusNotFound, echo.Map{"message": "No products found for this category"})
 	}

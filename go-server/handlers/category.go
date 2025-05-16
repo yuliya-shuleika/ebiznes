@@ -18,6 +18,6 @@ func CreateCategory(c echo.Context) error {
 
 func GetCategories(c echo.Context) error {
 	var categories []models.Category
-	db.DB.Preload("Products").Find(&categories)
+	db.DB.Scopes(models.ScopeWithProduct()).Find(&categories)
 	return c.JSON(http.StatusOK, categories)
 }
