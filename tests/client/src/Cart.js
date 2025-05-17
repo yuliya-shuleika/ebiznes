@@ -24,7 +24,7 @@ const  Cart = () => {
 
     const cartWithItems = (
         <div className={classes.cartItemsContainer}>
-            <div className={classes.cartItems}>
+            <div className={classes.cartItems} data-testid="cart-items">
                 <ul className={classes.cartItemsList}>{cartItemsToRender}</ul>
             </div>
             <hr className={classes.cartItemsDelimiter} />
@@ -32,7 +32,7 @@ const  Cart = () => {
                 <div className={classes.cartFooter}>
                     <div className={classes.cartItemsTotalPrice}>
                         <p className={classes.totalLabel}>Total</p>
-                        <p className={classes.cartItemsTotal}>{getCartTotal()}</p>
+                        <p className={classes.cartItemsTotal} data-testid="cart-items-total">{getCartTotal()}</p>
                         <span className={classes.totalCurrency}>$</span>
                     </div>
                     <div className={classes.cartItemsManage}>

@@ -45,7 +45,7 @@ const PaymentPage = () => {
             <form onSubmit={handleSubmit} className={classes.paymentForm}>
                 <div className={classes.cartItemsTotalPrice}>
                     <p className={classes.totalLabel}>Total</p>
-                    <p className={classes.cartItemsTotal}>{getCartTotal()}</p>
+                    <p data-testid="cart-items-total" className={classes.cartItemsTotal}>{getCartTotal()}</p>
                     <span className={classes.totalCurrency}>$</span>
                 </div>
                 <input
@@ -76,7 +76,7 @@ const PaymentPage = () => {
                     {loading ? 'Submitting...' : 'Submit Payment'}
                 </button>
                 {status && (
-                    <p className={classes.paymentStatusMessage}>{status}</p>
+                    <p data-testid="payment-status-message" className={classes.paymentStatusMessage}>{status}</p>
                 )}
             </form>
         </div>

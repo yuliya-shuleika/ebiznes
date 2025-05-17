@@ -10,7 +10,7 @@ const CatalogItem = ({ itemId }) => {
   if (!item) return null;
   
   return (
-    <div className={classes.catalogItem}>
+    <div data-testid="catalog-item" className={classes.catalogItem}>
       <img
         src={'/images/' + item.picture}
         className={classes.catalogItemPicture}
@@ -18,10 +18,10 @@ const CatalogItem = ({ itemId }) => {
       />
       <div className={classes.catalogItemContent}>
         <h3 className={classes.catalogItemTitle}>{item.name}</h3>
-        <p className={classes.catalogItemDescription}>{item.description}</p>
+        <p className={classes.catalogItemDescription} data-testid="catalog-item-description">{item.description}</p>
       </div>
       <div className={classes.catalogItemBottom}>
-        <div className={classes.catalogItemPrice}>
+        <div className={classes.catalogItemPrice} data-testid="catalog-item-price">
           <p className={classes.catalogPriceValue}>{item.price}</p>
           <span className={classes.catalogItemPriceCurrency}>$</span>
         </div>
@@ -30,6 +30,7 @@ const CatalogItem = ({ itemId }) => {
             className={classes.catalogItemButton}
             onClick={() => addToCart(item)}
             type="button"
+            data-testid="add-to-cart-button"
           >
             Add to cart
           </button>
