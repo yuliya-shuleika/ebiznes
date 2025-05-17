@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const  Cart = () => {
-    const { cartItems, clearCart } = useCart();
+    const { cartItems, getCartTotal } = useCart();
     const navigate =  useNavigate();
     const handleCheckoutClick = () => {
         navigate('/payment');
@@ -13,7 +13,7 @@ const  Cart = () => {
 
     let cartItemsToRender = [];
     for (let cartItem of cartItems) {
-        cartItemsToRender.push(<CartItem cartItem={cartItem}/>);
+        cartItemsToRender.push(<CartItem cartItemId={cartItem.ID}/>);
     }
 
     const emptyCart = (
@@ -21,15 +21,6 @@ const  Cart = () => {
             <p className={classes.cartEmptyLabel}>The cart is empty.</p>
         </div>
     );
-
-    const cartItemsTotal = () => {
-        let total = 0;
-        for (let cartItem of cartItems) {
-            total += cartItem.price * cartItem.quantity;
-        }
-
-        return total.toFixed(2);
-    };
 
     const cartWithItems = (
         <div className={classes.cartItemsContainer}>
@@ -41,7 +32,7 @@ const  Cart = () => {
                 <div className={classes.cartFooter}>
                     <div className={classes.cartItemsTotalPrice}>
                         <p className={classes.totalLabel}>Total</p>
-                        <p className={classes.cartItemsTotal}>{cartItemsTotal()}</p>
+                        <p className={classes.cartItemsTotal}>{getCartTotal()}</p>
                         <span className={classes.totalCurrency}>$</span>
                     </div>
                     <div className={classes.cartItemsManage}>

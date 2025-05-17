@@ -3,6 +3,7 @@ import classes from "./Classes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import { CatalogProvider } from "./contexts/CatalogItemsContext";
 
 const Catalog = () => {
     const navigate = useNavigate();
@@ -19,7 +20,9 @@ const Catalog = () => {
                 </div>
             </div>
             <div className={classes.catalogPanel}>
-                <CatalogItems />
+                <CatalogProvider>
+                    <CatalogItems />
+                </CatalogProvider>
             </div>
         </div>
     );

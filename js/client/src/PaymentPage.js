@@ -19,7 +19,7 @@ const PaymentPage = () => {
         setStatus('');
 
         const payload = {
-            total:  parseFloat(getCartTotal()),
+            total: getCartTotal(),
             credit_card_no: formData.credit_card_no,
             expiry_date: formData.expiry_date,
             cvv: formData.cvv,

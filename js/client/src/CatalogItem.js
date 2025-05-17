@@ -1,8 +1,13 @@
 import classes from "./Classes.module.css";
 import { useCart } from './contexts/CartContext';
+import { useCatalog } from './contexts/CatalogItemsContext';
 
-const CatalogItem = ({ item }) => {
+const CatalogItem = ({ itemId }) => {
+  const { items } = useCatalog();
   const { addToCart } = useCart();
+
+  const item = items.find(i => i.ID === itemId);
+  if (!item) return null;
   
   return (
     <div className={classes.catalogItem}>

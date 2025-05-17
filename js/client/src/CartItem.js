@@ -3,9 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "./contexts/CartContext";
 
-const CartItem = ({ cartItem }) => {
+const CartItem = ({ cartItemId }) => {
 
-    const { addToCart, removeFromCart, removeOneFromCart } = useCart();
+    const { addToCart, removeFromCart, removeOneFromCart, cartItems } = useCart();
+    console.log(cartItems);
+    console.log(cartItemId);
+    const cartItem = cartItems.find(item => item.ID === cartItemId);
     const clickPlus = () => {
         addToCart(cartItem);
     };
