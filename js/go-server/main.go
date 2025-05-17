@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"go-server/db"
 	"go-server/handlers"
 	"go-server/models"
@@ -9,6 +10,11 @@ import (
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
+	}))
 
 	db.ConnectDB()
 	db.DB.AutoMigrate(&models.Product{})

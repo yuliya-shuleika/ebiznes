@@ -6,7 +6,9 @@ import (
 
 type Payment struct {
 	gorm.Model
-	CartKey    string  `json:"cart_key"`
-	Total      float64 `json:"total"`
-	Status     string  `json:"status"`
+	Total        float64 `json:"total"`
+	Status       string  `json:"status"`
+	CreditCardNo string  `json:"credit_card_no"`
+	ExpiryDate   string  `json:"expiry_date"`
+	CVV          string  `json:"cvv"`
 }

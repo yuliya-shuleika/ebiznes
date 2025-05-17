@@ -4,25 +4,36 @@ import (
 	"go-server/db"
 	"go-server/models"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
 type PaymentRequest struct {
-	CartKey string  `json:"cart_key"`
-	Total   float64 `json:"total"`
+	Total 		 string `json:"total"`
+	CreditCardNo string  `json:"credit_card_no"`
+	ExpiryDate   string  `json:"expiry_date"`
+	CVV          string  `json:"cvv"`
 }
 
 func CreatePayment(c echo.Context) error {
 	var req PaymentRequest
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": "Invalid payment data"})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": err.Error()})
+	}
+
+	// Simulate successful payment logic
+	total, err := strconv.ParseFloat(req.Total, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": "Invalid total amount"})
 	}
 
 	payment := models.Payment{
-		CartKey: req.CartKey,
-		Total:   req.Total,
-		Status:  "paid", // Simulate a successful payment
+		Total:        total,
+		Status:       "paid",
+		CreditCardNo: req.CreditCardNo,
+		ExpiryDate:   req.ExpiryDate,
+		CVV:          req.CVV,
 	}
 
 	if err := db.DB.Create(&payment).Error; err != nil {
