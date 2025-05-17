@@ -9,9 +9,13 @@ export const CatalogProvider = ({ children }) => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/products')
-            .then((res) => setItems(res.data))
-            .catch((err) => console.error(err));
+        axios.get('http://localhost:8080/products', {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((res) => setItems(res.data))
+        .catch((err) => console.error(err));
     }, []);
 
     return (

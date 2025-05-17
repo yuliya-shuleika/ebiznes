@@ -26,7 +26,11 @@ const PaymentPage = () => {
         };
 
         try {
-            await axios.post('http://localhost:8080/payments', payload);
+            await axios.post('http://localhost:8080/payments', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
             setStatus('Payment request submitted!');
         } catch (error) {
             setStatus('Error submitting payment.');
@@ -34,7 +38,6 @@ const PaymentPage = () => {
             setLoading(false);
         }
     };
-
     return (
         <div className={classes.paymentPageContainer}>
             <h2 className={classes.paymentFormTitle}>Make a Payment</h2>
