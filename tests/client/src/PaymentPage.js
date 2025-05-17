@@ -46,7 +46,7 @@ const PaymentPage = () => {
                 <div className={classes.cartItemsTotalPrice}>
                     <p className={classes.totalLabel}>Total</p>
                     <p data-testid="cart-items-total" className={classes.cartItemsTotal}>{getCartTotal()}</p>
-                    <span className={classes.totalCurrency}>$</span>
+                    <span data-testid="cart-items-total-dollar-sign" className={classes.totalCurrency}>$</span>
                 </div>
                 <input
                     type="text"

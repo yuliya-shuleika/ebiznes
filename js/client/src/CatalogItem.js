@@ -18,7 +18,7 @@ const CatalogItem = ({ itemId }) => {
       />
       <div className={classes.catalogItemContent}>
         <h3 className={classes.catalogItemTitle}>{item.name}</h3>
-        <p className={classes.catalogItemDescription}>{item.description}</p>
+        <p className={classes.catalogItemDescription} cart-item-description>{item.description}</p>
       </div>
       <div className={classes.catalogItemBottom}>
         <div className={classes.catalogItemPrice}>

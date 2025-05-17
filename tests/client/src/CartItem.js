@@ -31,28 +31,28 @@ const CartItem = ({ cartItemId }) => {
                 />
                 <div className={classes.cartItemTitle}>
                     <h4 className={classes.cartItemName}>{cartItem.name}</h4>
-                    <p className={classes.cartItemDescription}>
+                    <p className={classes.cartItemDescription} data-testid="cart-item-description">
                         {cartItem.description}
                     </p>
                 </div>
             </div>
             <div className={classes.cartItemManage}>
                 <div className={classes.cartItemPrice}>
-                    <p className={classes.cartItemPriceValue}>
+                    <p data-testId="cart-item-price" className={classes.cartItemPriceValue}>
                         {cartItem.price}
                     </p>
                     <span className={classes.cartItemPriceCurrency}>$</span>
                     <div>
                         <div className={classes.cartItemCount}>
-                            <div className={classes.cartItemCountUpdate} onClick={clickPlus}>
+                            <div className={classes.cartItemCountUpdate} data-testid="cart-item-increment" onClick={clickPlus}>
                                 <span className={classes.plusMinusButton}>+</span>
                             </div>
-                            <p className={classes.cartItemCountLabel}>{cartItem.quantity}</p>
-                            <div className={classes.cartItemCountUpdate} onClick={clickMinus}>
+                            <p className={classes.cartItemCountLabel} data-testid="cart-item-count">{cartItem.quantity}</p>
+                            <div className={classes.cartItemCountUpdate} onClick={clickMinus} data-testid="cart-item-decrement">
                                 <span className={classes.plusMinusButton}>-</span>
                             </div>
                             <div className={classes.cartItemDelete}>
-                                <div className={classes.cartItemDeleteButton} onClick={deleteItem}>
+                                <div className={classes.cartItemDeleteButton} onClick={deleteItem} data-testid="cart-item-delete">
                                     <FontAwesomeIcon icon={faTrash} className={classes.trashIcon} />
                                 </div>
                             </div>
