@@ -40,3 +40,40 @@ Zadanie 3 Kotlin
 
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/kotlin
+
+Zadanie 4 Go
+
+✅ 3.0 [Należy stworzyć aplikację we frameworki echo w j. Go, która będzie
+miała kontroler Produktów zgodny z CRUD](https://github.com/yuliya-shuleika/ebiznes/commit/d596f7040899c967e93a4376fda72db32bcbff78)
+
+✅ 3.5 [Należy stworzyć model Produktów wykorzystując gorm oraz
+wykorzystać model do obsługi produktów (CRUD) w kontrolerze (zamiast
+listy)](https://github.com/yuliya-shuleika/ebiznes/commit/ff954f223ed0700a4c3e24464ab6b18241958149)
+
+✅ 4.0 [Należy dodać model Koszyka oraz dodać odpowiedni endpoint](https://github.com/yuliya-shuleika/ebiznes/commit/c789a4ea0619f6e7475c9276c3c652f1ed35011f)
+
+✅ 4.5 [Należy stworzyć model kategorii i dodać relację między kategorią,
+a produktem](https://github.com/yuliya-shuleika/ebiznes/commit/5beab8914ed53c665b9606d8a93b20e450679c1c)
+
+✅ 5.0 [pogrupować zapytania w gorm’owe scope'y](https://github.com/yuliya-shuleika/ebiznes/commit/3f33a5b5465361260e12f586bf8d2af71801c308)
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/go-server
+
+Zadanie 5 Frontend
+
+✅ 3.0 [W ramach projektu należy stworzyć dwa komponenty: Produkty oraz
+Płatności; Płatności powinny wysyłać do aplikacji serwerowej dane, a w
+Produktach powinniśmy pobierać dane o produktach z aplikacji
+serwerowej](https://github.com/yuliya-shuleika/ebiznes/commit/5eb1d1037d4e081a7669deac3f29377555e1ff44)
+
+✅ 3.5 [Należy dodać Koszyk wraz z widokiem; należy wykorzystać routing](https://github.com/yuliya-shuleika/ebiznes/commit/5eb1d1037d4e081a7669deac3f29377555e1ff44)
+
+✅ 4.0 [Dane pomiędzy wszystkimi komponentami powinny być przesyłane za
+pomocą React hooks](https://github.com/yuliya-shuleika/ebiznes/commit/0423530e8ce9a683e17dd2acb43ff7f107083bd9) + poprzedni komit
+
+✅ 4.5 [Należy dodać skrypt uruchamiający aplikację serwerową oraz
+kliencką na dockerze via docker-compose](https://github.com/yuliya-shuleika/ebiznes/commit/e24961d8aafd576d0878bfff05dd62c71ddcf737)
+
+✅ 5.0 [Należy wykorzystać axios’a oraz dodać nagłówki pod CORS](https://github.com/yuliya-shuleika/ebiznes/commit/f1c231c6f057b7aecd4d2a529e77fb169cb15087) + pierwszy komit
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/js
