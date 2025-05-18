@@ -2,8 +2,8 @@ import CatalogItems from "./CatalogItems";
 import classes from "./Classes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from 'react-router-dom';
-import { CatalogProvider } from "./contexts/CatalogItemsContext";
+import { useNavigate } from 'react-router';
+import { CatalogProvider } from "./contexts/CatalogContext";
 
 const Catalog = () => {
     const navigate = useNavigate();

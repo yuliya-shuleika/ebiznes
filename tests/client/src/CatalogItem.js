@@ -1,6 +1,6 @@
 import classes from "./Classes.module.css";
 import { useCart } from './contexts/CartContext';
-import { useCatalog } from './contexts/CatalogItemsContext';
+import { useCatalog } from './contexts/CatalogContext';
 
 const CatalogItem = ({ itemId }) => {
   const { items } = useCatalog();

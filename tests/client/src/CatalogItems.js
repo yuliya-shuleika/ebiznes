@@ -1,6 +1,6 @@
 import classes from "./Classes.module.css";
 import CatalogItem from "./CatalogItem";
-import { useCatalog } from './contexts/CatalogItemsContext';
+import { useCatalog } from './contexts/CatalogContext';
 
 const CatalogItems = () => {
   const { items } = useCatalog();
@@ -8,7 +8,7 @@ const CatalogItems = () => {
 
   return (
     <div className={classes.catalogItems}>
-      {items.length > 0 ? (
+      {items && items.length > 0 ? (
         items.map(item => <CatalogItem itemId={item.ID} />)
       ) : (
         <div className={classes.emptyCatalogList}>

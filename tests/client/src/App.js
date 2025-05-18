@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { CartProvider } from './contexts/CartContext';
 import Catalog from './Catalog';
 import Cart from './Cart';
