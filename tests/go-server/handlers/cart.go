@@ -1,16 +1,26 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo/v4"
 	"go-server/db"
 	"go-server/models"
+
+	"github.com/labstack/echo/v4"
 )
 
 func GetCartItems(c echo.Context) error {
 	cartKey := c.Param("key")
+
+	var count int64
+	if err := db.DB.Model(&models.CartItem{}).Where("cart_key = ?", cartKey).Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"message": "Database error"})
+	}
+	if count == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "No cart items found for this key"})
+	}
 
 	var items []models.CartItem
 	err := db.DB.Scopes(models.ScopeByCartKey(cartKey)).Find(&items).Error
@@ -21,15 +31,22 @@ func GetCartItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, items)
 }
 
+type RequestBody struct {
+	ProductID uint `json:"product_id"`
+	Quantity  uint `json:"quantity"`
+}
+
 func AddCartItem(c echo.Context) error {
 	cartKey := c.Param("key")
 
-	var body struct {
-		ProductID uint `json:"product_id"`
-		Quantity  uint `json:"quantity"`
-	}
-	if err := c.Bind(&body); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+	var body RequestBody
+	decoder := json.NewDecoder(c.Request().Body)
+	decoder.DisallowUnknownFields() // Helps catch unknown fields or malformed JSON
+
+	if err := decoder.Decode(&body); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "invalid request: " + err.Error(),
+		})
 	}
 
 	var product models.Product
@@ -75,6 +92,14 @@ func RemoveCartItem(c echo.Context) error {
 
 func ClearCart(c echo.Context) error {
 	cartKey := c.Param("key")
+
+	var count int64
+	if err := db.DB.Model(&models.CartItem{}).Where("cart_key = ?", cartKey).Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"message": "Database error"})
+	}
+	if count == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "No cart items found for this key"})
+	}
 
 	err := db.DB.Scopes(models.ScopeByCartKey(cartKey)).Delete(&models.CartItem{}).Error
 	if err != nil {

@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo/v4"
 	"go-server/db"
 	"go-server/models"
+
+	"github.com/labstack/echo/v4"
 )
 
 func GetProducts(c echo.Context) error {
@@ -57,16 +58,4 @@ func DeleteProduct(c echo.Context) error {
 	}
 	db.DB.Delete(&product)
 	return c.NoContent(http.StatusNoContent)
-}
-
-func GetProductsByCategory(c echo.Context) error {
-	categoryIDParam, _ := strconv.Atoi(c.Param("categoryId"))
-	categoryID := uint(categoryIDParam)
-
-	var products []models.Product
-	result := db.DB.Scopes(models.ScopeByCategory(categoryID)).Find(&products)
-	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "No products found for this category"})
-	}
-	return c.JSON(http.StatusOK, products)
 }
