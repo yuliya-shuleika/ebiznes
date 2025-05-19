@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Stash unstaged changes (optional but recommended)
+# This prevents the linter from running on unstaged changes,
+# which can be confusing.
+git stash -q --keep-index
+
+echo "Running golangci-lint on staged Go files..."
+
+# Get a list of staged Go files
+STAGED_GO_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')
+
+# If no Go files are staged, exit successfully
+if [ -z "$STAGED_GO_FILES" ]; then
+  echo "No staged Go files to lint. Skipping golangci-lint."
+  # Unstash stashed changes if any were stashed
+  git stash pop -q --index 2>/dev/null
+  exit 0
+fi
+
+# Run golangci-lint only on staged files.
+# --new-from-rev HEAD ensures it only checks changes in the current commit.
+# For a full project lint, you might remove this flag or use a different hook.
+# --fix attempts to automatically fix issues, if possible.
+golangci-lint run --new-from-rev HEAD --fix $STAGED_GO_FILES
+
+LINTER_RESULT=$?
+
+# Unstash the stashed changes (optional but recommended)
+git stash pop -q --index 2>/dev/null
+
+if [ $LINTER_RESULT -ne 0 ]; then
+  echo ""
+  echo "🚨 golangci-lint found issues. Please fix them before committing."
+  exit 1
+fi
+
+echo "✅ golangci-lint passed."
+exit 0
