@@ -77,3 +77,19 @@ kliencką na dockerze via docker-compose](https://github.com/yuliya-shuleika/ebi
 ✅ 5.0 [Należy wykorzystać axios’a oraz dodać nagłówki pod CORS](https://github.com/yuliya-shuleika/ebiznes/commit/f1c231c6f057b7aecd4d2a529e77fb169cb15087) + pierwszy komit
 
 Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/js
+
+Zadanie 6 Testy
+
+✅ 3.0 [Należy stworzyć 20 przypadków testowych w CypressJS lub Selenium
+(Kotlin, Python, Java, JS, Go, Scala)](https://github.com/yuliya-shuleika/ebiznes/commit/c3ff3ac59677a3d1281e240bde0bf051141bfc3c)
+
+✅ 3.5 [Należy rozszerzyć testy funkcjonalne, aby zawierały minimum 50
+asercji](https://github.com/yuliya-shuleika/ebiznes/commit/e19d97f4cc47f6dcb8c36d4a7164a4f64a48a1f3)
+
+✅ 4.0 [Należy stworzyć testy jednostkowe do wybranego wcześniejszego
+projektu z minimum 50 asercjami](https://github.com/yuliya-shuleika/ebiznes/commit/11d7577f18871e334c918aba7a27d779dd0023a0)
+
+✅ 4.5 [Należy dodać testy API, należy pokryć wszystkie endpointy z
+minimum jednym scenariuszem negatywnym per endpoint](https://github.com/yuliya-shuleika/ebiznes/commit/dc0689f091e02210b0712f21cd3c7e4e1b35dfe1)
+
+✅ 5.0 [Należy uruchomić testy funkcjonalne na Browserstacku](https://github.com/yuliya-shuleika/ebiznes/commit/ed8612b5f99dc89b06e57260f69fa7383dc0179b) [second commit](https://github.com/yuliya-shuleika/ebiznes/commit/41b43a343b8825c8bd8ec3b00a56cc2af441aba7) 
