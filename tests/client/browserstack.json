@@ -38,7 +38,7 @@
         "npm_dependencies": {},
         "package_config_options": {},
         "headless": true,
-        "local": false
+        "local": true
     },
     "connection_settings": {
         "local": false,
