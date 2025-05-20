@@ -9,6 +9,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+const productByIDRoute = "/products/:id"
+
 func main() {
 	e := echo.New()
 
@@ -22,10 +24,10 @@ func main() {
 	db.DB.AutoMigrate(&models.Product{})
 
 	e.GET("/products", handlers.GetProducts)
-	e.GET("/products/:id", handlers.GetProduct)
+	e.GET(productByIDRoute, handlers.GetProduct)
 	e.POST("/products", handlers.CreateProduct)
-	e.PUT("/products/:id", handlers.UpdateProduct)
-	e.DELETE("/products/:id", handlers.DeleteProduct)
+	e.PUT(productByIDRoute, handlers.UpdateProduct)
+	e.DELETE(productByIDRoute, handlers.DeleteProduct)
 
 	e.GET("/cart/:key", handlers.GetCartItems)
 	e.POST("/cart/:key/items", handlers.AddCartItem)
