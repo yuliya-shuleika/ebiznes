@@ -315,12 +315,6 @@ describe('Online Store - End-to-End Tests', () => {
             });
         }
 
-        function waitForDelayedReply(req) {
-            req.reply((res) => {
-                res.send({ delay: 2000 });
-            });
-        }
-
         it('payment button is disabled during loading', () => {
             cy.addItemAndGoToPayment();
             cy.get('input[name="credit_card"]').type('4111111111111111');
