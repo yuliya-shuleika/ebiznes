@@ -1,10 +1,6 @@
-FROM golang:1.21
+FROM golang:1.24.3-alpine
 
-RUN apt-get update && apt-get install -y \
-    gcc \
-    sqlite3 \
-    libsqlite3-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk upgrade && apk add --no-cache gcc musl-dev sqlite sqlite-dev
 
 WORKDIR /app
 

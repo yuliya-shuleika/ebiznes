@@ -15,15 +15,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetCartItems_NotFound(t *testing.T) {
+const testCartKey = "test-key"
+const cartRoute = "/cart/" + testCartKey
+
+func TestGetCartItemsNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	req := httptest.NewRequest(http.MethodGet, "/cart/cart123", nil)
+	req := httptest.NewRequest(http.MethodGet, cartRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("key")
-	c.SetParamValues("test-key")
+	c.SetParamValues(testCartKey)
 
 	err := GetCartItems(c)
 	assert.NoError(t, err)
@@ -34,14 +37,13 @@ func TestGetCartItems(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	cartKey := "cart123"
-	db.DB.Create(&models.CartItem{CartKey: cartKey, ProductID: 1, Quantity: 3})
+	db.DB.Create(&models.CartItem{CartKey: testCartKey, ProductID: 1, Quantity: 3})
 
-	req := httptest.NewRequest(http.MethodGet, "/cart/"+cartKey, nil)
+	req := httptest.NewRequest(http.MethodGet, cartRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("key")
-	c.SetParamValues(cartKey)
+	c.SetParamValues(testCartKey)
 
 	err := GetCartItems(c)
 	assert.NoError(t, err)
@@ -54,17 +56,17 @@ func TestGetCartItems(t *testing.T) {
 	assert.Equal(t, uint(3), items[0].Quantity)
 }
 
-func TestAddCartItem_InvalidBody(t *testing.T) {
+func TestAddCartItemWithInvalidBody(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{"productIdewjjweq": "invalid", "quantity": 2}`)
-	req := httptest.NewRequest(http.MethodPost, "/cart/test-key", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, cartRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("key")
-	c.SetParamValues("test-key")
+	c.SetParamValues(testCartKey)
 
 	_ = AddCartItem(c)
 
@@ -72,7 +74,7 @@ func TestAddCartItem_InvalidBody(t *testing.T) {
 	assert.Contains(t, rec.Body.String(), "invalid request")
 }
 
-func TestAddCartItem_Success(t *testing.T) {
+func TestAddCartItemSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -84,32 +86,32 @@ func TestAddCartItem_Success(t *testing.T) {
 	}
 	db.DB.Create(&product)
 	db.DB.Create(&models.CartItem{
-		CartKey:   "cart123",
+		CartKey:   testCartKey,
 		ProductID: product.ID,
 		Quantity:  3,
 	})
 
 	body := []byte(fmt.Sprintf(`{"product_id": %d, "quantity": 2}`, product.ID))
-	req := httptest.NewRequest(http.MethodPost, "/cart/cart123", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, cartRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
 	c := e.NewContext(req, rec)
 	c.SetParamNames("key")
-	c.SetParamValues("cart123")
+	c.SetParamValues(testCartKey)
 
 	err := AddCartItem(c)
 	if assert.NoError(t, err) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 	var cartItems []models.CartItem
-	result := db.DB.Where("cart_key = ? AND product_id = ?", "cart123", product.ID).Find(&cartItems)
+	result := db.DB.Where("cart_key = ? AND product_id = ?", testCartKey, product.ID).Find(&cartItems)
 	assert.NoError(t, result.Error)
 	assert.Len(t, cartItems, 1)
 	assert.Equal(t, uint(5), cartItems[0].Quantity)
 }
 
-func TestRemoveCartItem_NotFound(t *testing.T) {
+func TestRemoveCartItemNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -125,7 +127,7 @@ func TestRemoveCartItem_NotFound(t *testing.T) {
 	}
 }
 
-func TestRemoveCartItem_Success(t *testing.T) {
+func TestRemoveCartItemSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -155,7 +157,7 @@ func TestRemoveCartItem_Success(t *testing.T) {
 	}
 }
 
-func TestClearCart_NotFound(t *testing.T) {
+func TestClearCartNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -172,19 +174,18 @@ func TestClearCart_NotFound(t *testing.T) {
 	}
 }
 
-func TestClearCart_Success(t *testing.T) {
+func TestClearCartSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	cartKey := "cart-to-clear"
-	db.DB.Create(&models.CartItem{CartKey: cartKey, ProductID: 1, Quantity: 2})
-	db.DB.Create(&models.CartItem{CartKey: cartKey, ProductID: 2, Quantity: 1})
+	db.DB.Create(&models.CartItem{CartKey: testCartKey, ProductID: 1, Quantity: 2})
+	db.DB.Create(&models.CartItem{CartKey: testCartKey, ProductID: 2, Quantity: 1})
 
-	req := httptest.NewRequest(http.MethodDelete, "/cart/"+cartKey, nil)
+	req := httptest.NewRequest(http.MethodDelete, cartRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("key")
-	c.SetParamValues(cartKey)
+	c.SetParamValues(testCartKey)
 
 	err := ClearCart(c)
 	if assert.NoError(t, err) {
@@ -193,6 +194,6 @@ func TestClearCart_Success(t *testing.T) {
 	}
 
 	var count int64
-	db.DB.Model(&models.CartItem{}).Where("cart_key = ?", cartKey).Count(&count)
+	db.DB.Model(&models.CartItem{}).Where("cart_key = ?", testCartKey).Count(&count)
 	assert.Equal(t, int64(0), count)
 }

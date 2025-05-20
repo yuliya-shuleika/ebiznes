@@ -14,12 +14,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreatePayment_InvalidBody(t *testing.T) {
+const paymentsRoute = "/payments"
+
+func TestCreatePaymentWithInvalidBody(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{"total": "abc", "credit_card_no": "1234", "expiry_date": "12/25", "cvv": "123"}`)
-	req := httptest.NewRequest(http.MethodPost, "/payments", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, paymentsRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -30,12 +32,12 @@ func TestCreatePayment_InvalidBody(t *testing.T) {
 	assert.Contains(t, rec.Body.String(), "Invalid total amount")
 }
 
-func TestCreatePayment_InvalidJSON(t *testing.T) {
+func TestCreatePaymentWithInvalidJSON(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{invalid json}`)
-	req := httptest.NewRequest(http.MethodPost, "/payments", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, paymentsRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -45,7 +47,7 @@ func TestCreatePayment_InvalidJSON(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, rec.Code)
 }
 
-func TestCreatePayment_Success(t *testing.T) {
+func TestCreatePaymentSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -55,7 +57,7 @@ func TestCreatePayment_Success(t *testing.T) {
 		"expiry_date": "12/25",
 		"cvv": "123"
 	}`)
-	req := httptest.NewRequest(http.MethodPost, "/payments", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, paymentsRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -72,11 +74,11 @@ func TestCreatePayment_Success(t *testing.T) {
 	assert.Equal(t, "4111111111111111", payment.CreditCardNo)
 }
 
-func TestGetPayments_Empty(t *testing.T) {
+func TestGetPaymentsEmpty(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	req := httptest.NewRequest(http.MethodGet, "/payments", nil)
+	req := httptest.NewRequest(http.MethodGet, paymentsRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 
@@ -90,7 +92,7 @@ func TestGetPayments_Empty(t *testing.T) {
 	assert.Len(t, payments, 0)
 }
 
-func TestGetPayments_WithData(t *testing.T) {
+func TestGetPaymentsWithData(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -103,7 +105,7 @@ func TestGetPayments_WithData(t *testing.T) {
 	}
 	db.DB.Create(&payment)
 
-	req := httptest.NewRequest(http.MethodGet, "/payments", nil)
+	req := httptest.NewRequest(http.MethodGet, paymentsRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 

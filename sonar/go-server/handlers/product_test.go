@@ -15,7 +15,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetProducts_Empty(t *testing.T) {
+const notFoundMessage = "Product not found"
+const productRoute = "/products"
+const productNotFoundID = "999"
+const productIDRouteFormat = "/products/%d"
+const productNotFoundRoute = "/products/999"
+
+func TestGetProductsEmpty(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -33,14 +39,14 @@ func TestGetProducts_Empty(t *testing.T) {
 	assert.Len(t, products, 0)
 }
 
-func TestGetProducts_WithData(t *testing.T) {
+func TestGetProductsWithData(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	product := models.Product{Name: "Prod1", Description: "Desc1", Price: 100, Picture: "pic.jpg"}
 	db.DB.Create(&product)
 
-	req := httptest.NewRequest(http.MethodGet, "/products", nil)
+	req := httptest.NewRequest(http.MethodGet, productRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 
@@ -55,30 +61,29 @@ func TestGetProducts_WithData(t *testing.T) {
 	assert.Equal(t, "Prod1", products[0].Name)
 }
 
-func TestGetProduct_NotFound(t *testing.T) {
+func TestGetProductNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	req := httptest.NewRequest(http.MethodGet, "/products/999", nil)
+	req := httptest.NewRequest(http.MethodGet, productNotFoundRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("id")
-	c.SetParamValues("999")
+	c.SetParamValues(productNotFoundID)
 
 	err := GetProduct(c)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusNotFound, rec.Code)
-	assert.Contains(t, rec.Body.String(), "Product not found")
+	assert.Contains(t, rec.Body.String(), notFoundMessage)
 }
 
-func TestGetProduct_Success(t *testing.T) {
+func TestGetProductSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	product := models.Product{Name: "Prod1", Description: "Desc1", Price: 100, Picture: "pic.jpg"}
 	db.DB.Create(&product)
-
-	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/products/%d", product.ID), nil)
+	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf(productIDRouteFormat, product.ID), nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("id")
@@ -94,12 +99,12 @@ func TestGetProduct_Success(t *testing.T) {
 	assert.Equal(t, product.Name, returnedProduct.Name)
 }
 
-func TestCreateProduct_InvalidBody(t *testing.T) {
+func TestCreateProductInvalidBody(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{"name": "Test", "price": "invalid"}`)
-	req := httptest.NewRequest(http.MethodPost, "/products", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, productRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -109,12 +114,12 @@ func TestCreateProduct_InvalidBody(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, rec.Code)
 }
 
-func TestCreateProduct_Success(t *testing.T) {
+func TestCreateProductSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{"name": "New Product", "description": "Desc", "price": 150, "picture": "img.jpg"}`)
-	req := httptest.NewRequest(http.MethodPost, "/products", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPost, productRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -129,25 +134,25 @@ func TestCreateProduct_Success(t *testing.T) {
 	assert.Equal(t, "New Product", product.Name)
 }
 
-func TestUpdateProduct_NotFound(t *testing.T) {
+func TestUpdateProductNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	body := []byte(`{"name": "Updated Name", "price": 200}`)
-	req := httptest.NewRequest(http.MethodPut, "/products/999", bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPut, productNotFoundRoute, bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("id")
-	c.SetParamValues("999")
+	c.SetParamValues(productNotFoundID)
 
 	err := UpdateProduct(c)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusNotFound, rec.Code)
-	assert.Contains(t, rec.Body.String(), "Product not found")
+	assert.Contains(t, rec.Body.String(), notFoundMessage)
 }
 
-func TestUpdateProduct_InvalidBody(t *testing.T) {
+func TestUpdateProductInvalidBody(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -155,7 +160,7 @@ func TestUpdateProduct_InvalidBody(t *testing.T) {
 	db.DB.Create(&product)
 
 	body := []byte(`{"price": "invalid"}`)
-	req := httptest.NewRequest(http.MethodPut, fmt.Sprintf("/products/%d", product.ID), bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPut, fmt.Sprintf(productIDRouteFormat, product.ID), bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -167,7 +172,7 @@ func TestUpdateProduct_InvalidBody(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, rec.Code)
 }
 
-func TestUpdateProduct_Success(t *testing.T) {
+func TestUpdateProductSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
@@ -175,7 +180,7 @@ func TestUpdateProduct_Success(t *testing.T) {
 	db.DB.Create(&product)
 
 	body := []byte(`{"name": "New Name", "price": 250}`)
-	req := httptest.NewRequest(http.MethodPut, fmt.Sprintf("/products/%d", product.ID), bytes.NewBuffer(body))
+	req := httptest.NewRequest(http.MethodPut, fmt.Sprintf(productIDRouteFormat, product.ID), bytes.NewBuffer(body))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -193,33 +198,33 @@ func TestUpdateProduct_Success(t *testing.T) {
 	assert.Equal(t, 250.0, updatedProduct.Price)
 }
 
-func TestDeleteProduct_NotFound(t *testing.T) {
+func TestDeleteProductNotFound(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
-	req := httptest.NewRequest(http.MethodDelete, "/products/999", nil)
+	req := httptest.NewRequest(http.MethodDelete, productNotFoundRoute, nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("id")
-	c.SetParamValues("999")
+	c.SetParamValues(productNotFoundID)
 
 	err := DeleteProduct(c)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusNotFound, rec.Code)
-	assert.Contains(t, rec.Body.String(), "Product not found")
+	assert.Contains(t, rec.Body.String(), notFoundMessage)
 }
 
-func TestDeleteProduct_Success(t *testing.T) {
+func TestDeleteProductSuccess(t *testing.T) {
 	setupTestDB()
 	e := setupEcho()
 
 	product := models.Product{Name: "ToDelete", Description: "Desc", Price: 100, Picture: "img.jpg"}
 	db.DB.Create(&product)
-
-	req := httptest.NewRequest(http.MethodDelete, fmt.Sprintf("/products/%d", product.ID), nil)
+	req := httptest.NewRequest(http.MethodDelete, fmt.Sprintf(productIDRouteFormat, product.ID), nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 	c.SetParamNames("id")
+	c.SetParamValues(fmt.Sprintf("%d", product.ID))
 	c.SetParamValues(fmt.Sprintf("%d", product.ID))
 
 	err := DeleteProduct(c)

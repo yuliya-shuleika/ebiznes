@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const productNotFoundMessage = "Product not found"
+
 func GetProducts(c echo.Context) error {
 	var products []models.Product
 	db.DB.Find(&products)
@@ -21,7 +23,7 @@ func GetProduct(c echo.Context) error {
 	var product models.Product
 	result := db.DB.First(&product, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found"})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": productNotFoundMessage})
 	}
 	return c.JSON(http.StatusOK, product)
 }
@@ -40,7 +42,7 @@ func UpdateProduct(c echo.Context) error {
 	var product models.Product
 	result := db.DB.First(&product, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found"})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": productNotFoundMessage})
 	}
 	if err := c.Bind(&product); err != nil {
 		return c.JSON(http.StatusBadRequest, err)
@@ -54,7 +56,7 @@ func DeleteProduct(c echo.Context) error {
 	var product models.Product
 	result := db.DB.First(&product, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found"})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": productNotFoundMessage})
 	}
 	db.DB.Delete(&product)
 	return c.NoContent(http.StatusNoContent)
