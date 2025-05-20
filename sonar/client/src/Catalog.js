@@ -15,9 +15,15 @@ const Catalog = () => {
         <div className={classes.catalogContainer}>
             <div className={classes.catalogHeader}>
                 <h2 className={classes.catalogTitle}>Catalog</h2>
-                <div data-testid="cart-link" className={classes.cartLink} onClick={handleCartClick}>
+                <button
+                    type="button"
+                    data-testid="cart-link"
+                    className={classes.cartLink}
+                    onClick={handleCartClick}
+                    aria-label="Go to cart"
+                >
                     <FontAwesomeIcon icon={faShoppingCart} className={classes.icon} />
-                </div>
+                </button>
             </div>
             <div className={classes.catalogPanel}>
                 <CatalogProvider>

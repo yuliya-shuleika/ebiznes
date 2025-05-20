@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import CatalogItems from './CatalogItems';
 import { useCatalog } from './contexts/CatalogContext';
+import PropTypes from 'prop-types';
 
 jest.mock('./Classes.module.css', () => ({
     catalogItems: 'catalogItems',
@@ -9,9 +10,13 @@ jest.mock('./Classes.module.css', () => ({
     emptyCatalogListLabel: 'emptyCatalogListLabel',
 }));
 
-jest.mock('./CatalogItem', () => ({ itemId }) => (
+const MockCatalogItem = ({ itemId }) => (
     <div data-testid="catalog-item">CatalogItem {itemId}</div>
-));
+);
+MockCatalogItem.propTypes = {
+    itemId: PropTypes.any,
+};
+jest.mock('./CatalogItem', () => MockCatalogItem);
 
 jest.mock('./contexts/CatalogContext', () => ({
     useCatalog: jest.fn(),

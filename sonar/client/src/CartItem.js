@@ -2,6 +2,7 @@ import classes from "./Classes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "./contexts/CartContext";
+import PropTypes from "prop-types";
 
 const CartItem = ({ cartItemId }) => {
 
@@ -44,17 +45,35 @@ const CartItem = ({ cartItemId }) => {
                     <span className={classes.cartItemPriceCurrency}>$</span>
                     <div>
                         <div className={classes.cartItemCount}>
-                            <div className={classes.cartItemCountUpdate} data-testid="cart-item-increment" onClick={clickPlus}>
+                            <button
+                                type="button"
+                                className={classes.cartItemCountUpdate}
+                                data-testid="cart-item-increment"
+                                onClick={clickPlus}
+                                aria-label="Increase quantity"
+                            >
                                 <span className={classes.plusMinusButton}>+</span>
-                            </div>
+                            </button>
                             <p className={classes.cartItemCountLabel} data-testid="cart-item-count">{cartItem.quantity}</p>
-                            <div className={classes.cartItemCountUpdate} onClick={clickMinus} data-testid="cart-item-decrement">
+                            <button
+                                type="button"
+                                className={classes.cartItemCountUpdate}
+                                onClick={clickMinus}
+                                data-testid="cart-item-decrement"
+                                aria-label="Decrease quantity"
+                            >
                                 <span className={classes.plusMinusButton}>-</span>
-                            </div>
+                            </button>
                             <div className={classes.cartItemDelete}>
-                                <div className={classes.cartItemDeleteButton} onClick={deleteItem} data-testid="cart-item-delete">
+                                <button
+                                    type="button"
+                                    className={classes.cartItemDeleteButton}
+                                    onClick={deleteItem}
+                                    data-testid="cart-item-delete"
+                                    aria-label="Remove item"
+                                >
                                     <FontAwesomeIcon icon={faTrash} className={classes.trashIcon} />
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -63,5 +82,8 @@ const CartItem = ({ cartItemId }) => {
         </li>
     );
 }
+CartItem.propTypes = {
+    cartItemId: PropTypes.number.isRequired,
+};
 
 export default CartItem;

@@ -1,6 +1,7 @@
 import classes from "./Classes.module.css";
 import { useCart } from './contexts/CartContext';
 import { useCatalog } from './contexts/CatalogContext';
+import PropTypes from 'prop-types';
 
 const CatalogItem = ({ itemId }) => {
   const { items } = useCatalog();
@@ -39,5 +40,8 @@ const CatalogItem = ({ itemId }) => {
     </div>
   );
 }
+CatalogItem.propTypes = {
+  itemId: PropTypes.number.isRequired
+};
 
 export default CatalogItem;
