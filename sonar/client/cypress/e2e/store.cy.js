@@ -188,7 +188,7 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('[data-testid="cart-item-count"]').should('have.text', '1');
         });
 
-        function expectNumberIncreased(valueBefore) {
+        function expectNumberIncreased(textBefore) {
             const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
             cy.get('[data-testid="cart-item-increment"]').click();
             cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
