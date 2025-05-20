@@ -188,7 +188,7 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('[data-testid="cart-item-count"]').should('have.text', '1');
         });
 
-        function expectNumberIncreased(textBefore) {
+        function expectNumberIncreased(valueBefore) {
             const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
             cy.get('[data-testid="cart-item-increment"]').click();
             cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
@@ -315,12 +315,19 @@ describe('Online Store - End-to-End Tests', () => {
             });
         }
 
+        function waitForDelayedReply(req) {
+            req.reply((res) => {
+                res.send({ delay: 2000 });
+            });
+        }
+
         it('payment button is disabled during loading', () => {
             cy.addItemAndGoToPayment();
             cy.get('input[name="credit_card"]').type('4111111111111111');
             cy.get('input[name="expiry_date"]').type('12/25');
             cy.get('input[name="cvv"]').type('123');
             cy.intercept('POST', '/payments', (req) => {
+                waitForDelayedReply(req);
                 waitForDelayedReply(req);
             });
             cy.get('button[type="submit"]').click();
@@ -333,6 +340,7 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('input[name="expiry_date"]').type('12/25');
             cy.get('input[name="cvv"]').type('123');
             cy.intercept('POST', '/payments', (req) => {
+                waitForDelayedReply(req);
                 waitForDelayedReply(req);
             });
             cy.get('button[type="submit"]').click();
