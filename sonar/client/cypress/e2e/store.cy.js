@@ -188,30 +188,38 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('[data-testid="cart-item-count"]').should('have.text', '1');
         });
 
+        function expectNumberIncreased(valueBefore) {
+            const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
+            cy.get('[data-testid="cart-item-increment"]').click();
+            cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
+                const valueAfter = parseFloat(textAfter.replace(/[^0-9.]/g, ''));
+                expect(valueAfter).to.be.greaterThan(valueBefore);
+            });
+        }
+
         it('increment changes total amount', () => {
             cy.get('[data-testid="add-to-cart-button"]').first().click();
             cy.get('[data-testid="cart-link"]').click();
             cy.get('[data-testid="cart-items-total"]').invoke('text').then((textBefore) => {
-                const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
-                cy.get('[data-testid="cart-item-increment"]').click();
-                cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
-                    const valueAfter = parseFloat(textAfter.replace(/[^0-9.]/g, ''));
-                    expect(valueAfter).to.be.greaterThan(valueBefore);
-                });
+                expectNumberIncreased(textBefore);
             });
         });
+
+        function expectNumberDecreased(valueBefore) {
+            const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
+            cy.get('[data-testid="cart-item-decrement"]').click();
+            cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
+                const valueAfter = parseFloat(textAfter.replace(/[^0-9.]/g, ''));
+                expect(valueAfter).to.be.lessThan(valueBefore);
+            });
+        }
 
         it('decrement changes total amount', () => {
             cy.get('[data-testid="add-to-cart-button"]').first().click();
             cy.get('[data-testid="add-to-cart-button"]').first().click();
             cy.get('[data-testid="cart-link"]').click();
             cy.get('[data-testid="cart-items-total"]').invoke('text').then((textBefore) => {
-                const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
-                cy.get('[data-testid="cart-item-decrement"]').click();
-                cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
-                    const valueAfter = parseFloat(textAfter.replace(/[^0-9.]/g, ''));
-                    expect(valueAfter).to.be.lessThan(valueBefore);
-                });
+                expectNumberDecreased(textBefore);
             });
         });
 
@@ -220,12 +228,7 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('[data-testid="add-to-cart-button"]').eq(1).click();
             cy.get('[data-testid="cart-link"]').click();
             cy.get('[data-testid="cart-items-total"]').invoke('text').then((textBefore) => {
-                const valueBefore = parseFloat(textBefore.replace(/[^0-9.]/g, ''));
-                cy.get('[data-testid="cart-item-delete"]').eq(0).click();
-                cy.get('[data-testid="cart-items-total"]').invoke('text').then((textAfter) => {
-                    const valueAfter = parseFloat(textAfter.replace(/[^0-9.]/g, ''));
-                    expect(valueAfter).to.be.lessThan(valueBefore);
-                });
+                expectNumberDecreased(textBefore);
             });
         });
     });
@@ -306,15 +309,19 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('[data-testid="payment-status-message"]').should('not.exist');
         });
 
+        function waitForDelayedReply(req) {
+            req.reply((res) => {
+                res.send({ delay: 2000 });
+            });
+        }
+
         it('payment button is disabled during loading', () => {
             cy.addItemAndGoToPayment();
             cy.get('input[name="credit_card"]').type('4111111111111111');
             cy.get('input[name="expiry_date"]').type('12/25');
             cy.get('input[name="cvv"]').type('123');
             cy.intercept('POST', '/payments', (req) => {
-                req.reply((res) => {
-                    res.send({ delay: 2000 });
-                });
+                waitForDelayedReply(req);
             });
             cy.get('button[type="submit"]').click();
             cy.get('button[type="submit"]').should('be.disabled');
@@ -326,9 +333,7 @@ describe('Online Store - End-to-End Tests', () => {
             cy.get('input[name="expiry_date"]').type('12/25');
             cy.get('input[name="cvv"]').type('123');
             cy.intercept('POST', '/payments', (req) => {
-                req.reply((res) => {
-                    res.send({ delay: 2000 });
-                });
+                waitForDelayedReply(req);
             });
             cy.get('button[type="submit"]').click();
             cy.get('button[type="submit"]').should('have.text', 'Submitting...');

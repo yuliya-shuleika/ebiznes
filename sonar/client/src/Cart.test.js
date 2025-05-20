@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Cart from './Cart';
 import { useCart } from './contexts/CartContext';
 import { useNavigate } from 'react-router';
+import PropTypes from 'prop-types';
 
 //10 assertions
 jest.mock('./contexts/CartContext');
@@ -11,9 +12,15 @@ jest.mock('react-router', () => ({
     useNavigate: jest.fn(),
 }));
 
-jest.mock('./CartItem', () => ({ cartItemId }) => (
-    <li data-testid={`cart-item-${cartItemId}`}>Item {cartItemId}</li>
-));
+jest.mock('./CartItem', () => {
+    const MockCartItem = ({ cartItemId }) => (
+        <li data-testid={`cart-item-${cartItemId}`}>Item {cartItemId}</li>
+    );
+    MockCartItem.propTypes = {
+        cartItemId: PropTypes.any.isRequired,
+    };
+    return MockCartItem;
+});
 
 const mockNavigate = jest.fn();
 

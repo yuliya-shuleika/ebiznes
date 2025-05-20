@@ -33,6 +33,7 @@ const PaymentPage = () => {
             });
             setStatus('Payment request submitted!');
         } catch (error) {
+            console.error('Payment submission error:', error);
             setStatus('Error submitting payment.');
         } finally {
             setLoading(false);

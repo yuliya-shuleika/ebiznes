@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 const CatalogContext = createContext();
@@ -18,9 +19,15 @@ export const CatalogProvider = ({ children }) => {
         .catch((err) => console.error(err));
     }, []);
 
+    const value = useMemo(() => ({ items }), [items]);
+
     return (
-        <CatalogContext.Provider value={{ items }}>
+        <CatalogContext.Provider value={value}>
             {children}
         </CatalogContext.Provider>
     );
+};
+
+CatalogProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };

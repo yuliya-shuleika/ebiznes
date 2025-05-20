@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const CartContext = createContext();
 
@@ -16,7 +17,7 @@ export const CartProvider = ({ children }) => {
             return [...prevItems, { ...item, quantity: 1 }];
         });
         console.log('Item added to cart:', item);
-        
+
     };
 
     const removeFromCart = (id) => {
@@ -43,12 +44,26 @@ export const CartProvider = ({ children }) => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     }
 
+    const contextValue = useMemo(
+        () => ({
+            cartItems,
+            addToCart,
+            removeFromCart,
+            removeOneFromCart,
+            clearCart,
+            getCartTotal,
+        }),
+        [cartItems]
+    );
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, removeOneFromCart, clearCart, getCartTotal }}>
+        <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>
     );
 };
 
-// Custom hook
+CartProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 export const useCart = () => useContext(CartContext);

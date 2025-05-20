@@ -9,7 +9,7 @@ const CatalogItems = () => {
   return (
     <div className={classes.catalogItems}>
       {items && items.length > 0 ? (
-        items.map(item => <CatalogItem itemId={item.ID} />)
+        items.map(item => <CatalogItem key={item.ID} itemId={item.ID} />)
       ) : (
         <div className={classes.emptyCatalogList}>
           <p className={classes.emptyCatalogListLabel}>No items were found</p>

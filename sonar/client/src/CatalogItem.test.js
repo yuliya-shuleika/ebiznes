@@ -57,5 +57,3 @@ describe('CatalogItem', () => {
         expect(screen.getByText('$')).toBeInTheDocument();
     });
 });
-
-// We recommend installing an extension to run jest tests.
