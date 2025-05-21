@@ -92,4 +92,32 @@ projektu z minimum 50 asercjami](https://github.com/yuliya-shuleika/ebiznes/comm
 ✅ 4.5 [Należy dodać testy API, należy pokryć wszystkie endpointy z
 minimum jednym scenariuszem negatywnym per endpoint](https://github.com/yuliya-shuleika/ebiznes/commit/dc0689f091e02210b0712f21cd3c7e4e1b35dfe1)
 
-✅ 5.0 [Należy uruchomić testy funkcjonalne na Browserstacku](https://github.com/yuliya-shuleika/ebiznes/commit/ed8612b5f99dc89b06e57260f69fa7383dc0179b) [second commit](https://github.com/yuliya-shuleika/ebiznes/commit/41b43a343b8825c8bd8ec3b00a56cc2af441aba7) 
+✅ 5.0 [Należy uruchomić testy funkcjonalne na Browserstacku](https://github.com/yuliya-shuleika/ebiznes/commit/ed8612b5f99dc89b06e57260f69fa7383dc0179b) [second commit](https://github.com/yuliya-shuleika/ebiznes/commit/41b43a343b8825c8bd8ec3b00a56cc2af441aba7)
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/tests
+
+Zadanie 7 Sonar
+
+✅ 3.0 [Należy dodać litera do odpowiedniego kodu aplikacji serwerowej w
+hookach gita](https://github.com/yuliya-shuleika/ebiznes/commit/9787ee5ce4b6a28bbe84995d3f7a085b1becd27ds)
+
+✅ 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod
+aplikacji serwerowej) - Nie znaleziono
+
+✅ 4.0 [Należy wyeliminować wszystkie zapaszki w kodzie w Sonarze (kod
+aplikacji serwerowej)](https://github.com/yuliya-shuleika/ebiznes/commit/4967b054f2cc6aef354e9c4d699c7118ee490f4c)
+
+✅ 4.5 Należy wyeliminować wszystkie podatności oraz błędy bezpieczeństwa
+w kodzie w Sonarze (kod aplikacji serwerowej) - Nie znaleziono
+
+✅ 5.0 [Należy wyeliminować wszystkie błędy oraz zapaszki w kodzie
+aplikacji klienckiej](https://github.com/yuliya-shuleika/ebiznes/commit/364cf9f543948016cff562685e240f1573895aab)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=yuliya-shuleika_ebiznes&metric=bugs)](https://sonarcloud.io/summary/new_code?id=yuliya-shuleika_ebiznes)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=yuliya-shuleika_ebiznes&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=yuliya-shuleika_ebiznes)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=yuliya-shuleika_ebiznes&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=yuliya-shuleika_ebiznes)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=yuliya-shuleika_ebiznes&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=yuliya-shuleika_ebiznes)
+
+
+Kod: https://github.com/yuliya-shuleika/ebiznes/tree/main/sonar
+
